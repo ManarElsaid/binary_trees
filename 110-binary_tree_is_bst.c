@@ -10,10 +10,10 @@ int binary_tree_check_bst(const binary_tree_t *tree, int min, int max)
 {
 	if (!tree)
 		return (1);
-	if (tree->n < min || tree->n > max)
+	if (tree->n <= min || tree->n >= max)
 		return (0);
-	return (binary_tree_check_bst(tree->right, tree->n + 1, max) &&
-			binary_tree_check_bst(tree->left, min, tree->n - 1));
+	return (binary_tree_check_bst(tree->right, tree->n, max) &&
+			binary_tree_check_bst(tree->left, min, tree->n));
 }
 
 /**
