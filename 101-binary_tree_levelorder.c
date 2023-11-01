@@ -32,9 +32,10 @@ void levelorde_display(const binary_tree_t *tree,  void (*func)(int), size_t hei
 
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
+    size_t i, height;
+
     if (!tree || !func)
-        return;
-    int i, height;
+	    return;
 
     height =binary_tree_height(tree); 
     for(i = 1; i <= height + 1; i++)
