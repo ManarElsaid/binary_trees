@@ -14,8 +14,10 @@ const binary_tree_t *second)
 
 	if (!first || !second)
 		return (NULL);
-	if (first == second || (first->parent == second))
-		return ((binary_tree_t *)first->parent);
+	if (first == second)
+		return ((binary_tree_t *)first);
+	if ((first->parent == second))
+		return (first->parent);
 	if (first == second->parent)
 		return ((binary_tree_t *)first);
 	if (first->parent == second->parent)
