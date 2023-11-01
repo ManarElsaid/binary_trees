@@ -1,60 +1,99 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "binary_trees.h"
 
-/**
- * binary_tree_height - measures the height of a binary tree
- * @tree: pointer to the root node of the tree to measure the height of
- *
- * Return: the height of the tree. If tree is NULL, return 0
- */
-size_t binary_tree_height(const binary_tree_t *tree)
-{
-	size_t left, right;
+/* Original code from http://stackoverflow.com/a/13755911/5184480 */
 
-	if (tree == NULL)
+/**
+ * print_t - Stores recursively each level in an array of strings
+ *
+ * @tree: Pointer to the node to print
+ * @offset: Offset to print
+ * @depth: Depth of the node
+ * @s: Buffer
+ *
+ * Return: length of printed tree after process
+ */
+static int print_t(const binary_tree_t *tree, int offset, int depth, char **s)
+{
+	char b[6];
+	int width, left, right, is_left, i;
+
+	if (!tree)
 		return (0);
-	left = binary_tree_height(tree->left);
-	right = binary_tree_height(tree->right);
-	if (left >= right)
-		return (1 + left);
-	return (1 + right);
-}
-
-/**
- * binary_tree_level - perform a function on a specific level of a binary tree
- * @tree: pointer to the root of the tree
- * @l: level of the tree to perform a function on
- * @func: function to perform
- *
- * Return: void
- */
-void binary_tree_level(const binary_tree_t *tree, size_t l, void (*func)(int))
-{
-	if (tree == NULL)
-		return;
-	if (l == 1)
-		func(tree->n);
-	else if (l > 1)
+	is_left = (tree->parent && tree->parent->left == tree);
+	width = sprintf(b, "(%03d)", tree->n);
+	left = print_t(tree->left, offset, depth + 1, s);
+	right = print_t(tree->right, offset + left + width, depth + 1, s);
+	for (i = 0; i < width; i++)
+		s[depth][offset + left + i] = b[i];
+	if (depth && is_left)
 	{
-		binary_tree_level(tree->left, l - 1, func);
-		binary_tree_level(tree->right, l - 1, func);
+		for (i = 0; i < width + right; i++)
+			s[depth - 1][offset + left + width / 2 + i] = '-';
+		s[depth - 1][offset + left + width / 2] = '.';
 	}
+	else if (depth && !is_left)
+	{
+		for (i = 0; i < left + width; i++)
+			s[depth - 1][offset - width / 2 + i] = '-';
+		s[depth - 1][offset + left + width / 2] = '.';
+	}
+	return (left + width + right);
 }
 
 /**
- * binary_tree_levelorder - traverses a binary tree using level-order traversal
- * @tree: pointer to the root node of the tree to traverse
- * @func: pointer to a function to call for each node.
- * The value in the node must be passed as a parameter to this function
+ * _height - Measures the height of a binary tree
  *
- * Return: void
+ * @tree: Pointer to the node to measures the height
+ *
+ * Return: The height of the tree starting at @node
  */
-void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
+static size_t _height(const binary_tree_t *tree)
 {
-	size_t height, i;
+	size_t height_l;
+	size_t height_r;
 
-	if (tree == NULL || func == NULL)
+	height_l = tree->left ? 1 + _height(tree->left) : 0;
+	height_r = tree->right ? 1 + _height(tree->right) : 0;
+	return (height_l > height_r ? height_l : height_r);
+}
+
+/**
+ * binary_tree_print - Prints a binary tree
+ *
+ * @tree: Pointer to the root node of the tree to print
+ */
+void binary_tree_print(const binary_tree_t *tree)
+{
+	char **s;
+	size_t height, i, j;
+
+	if (!tree)
 		return;
-	height = binary_tree_height(tree);
-	for (i = 1; i <= height; i++)
-		binary_tree_level(tree, i, func);
+	height = _height(tree);
+	s = malloc(sizeof(*s) * (height + 1));
+	if (!s)
+		return;
+	for (i = 0; i < height + 1; i++)
+	{
+		s[i] = malloc(sizeof(**s) * 255);
+		if (!s[i])
+			return;
+		memset(s[i], 32, 255);
+	}
+	print_t(tree, 0, 0, s);
+	for (i = 0; i < height + 1; i++)
+	{
+		for (j = 254; j > 1; --j)
+		{
+			if (s[i][j] != ' ')
+				break;
+			s[i][j] = '\0';
+		}
+		printf("%s\n", s[i]);
+		free(s[i]);
+	}
+	free(s);
 }
