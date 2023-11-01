@@ -1,20 +1,19 @@
 #include "binary_trees.h"
-
-size_t tree_height(const binary_tree_t *tree);
 /**
- * tree_height - calculate the height of a node
- * @tree: pointer to the tree root
- * Return: the height of the tree
- */
-size_t tree_height(const binary_tree_t *tree)
+ *
+ * 
+ * 
+ * 
+*/
+size_t binary_tree_height(const binary_tree_t *tree)
 {
 	size_t l_height, r_height;
 
 	if (!tree || (!tree->left && !tree->right))
 		return (0);
 
-	l_height = tree_height(tree->left);
-	r_height = tree_height(tree->right);
+	l_height = binary_tree_height(tree->left);
+	r_height = binary_tree_height(tree->right);
 
 	if (l_height >= r_height)
 		return (l_height + 1);
@@ -40,8 +39,9 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
     if (!tree || !func)
         return;
-    size_t i;
-    size_t height = tree_height(tree); 
+    size_t i, height;
+
+    height = binary_tree_height(tree); 
     for(i = 1; i <= height + 1; i++)
     levelorde_display(tree, func, i);
 }
