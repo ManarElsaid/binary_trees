@@ -10,25 +10,40 @@
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 const binary_tree_t *second)
 {
-	binary_tree_t *ancestor;
+	binary_tree_t * tmp;
+	while(first)
+	{
+		tmp = (binary_tree_t *)second;
 
-	if (!first || !second)
-		return (NULL);
-	if (first == second)
-		return ((binary_tree_t *)first);
-	if (first == second->parent)
-		return ((binary_tree_t *)first);
-	if (first->parent == second)
-		return ((binary_tree_t *)second);
-	if (first->parent == second->parent)
-		return (first->parent);
+		while(second)
+		{
+			if(first == second)
+				return ((binary_tree_t *)first);
+			second = second->parent;
+		}
+		second = tmp;
+		first = first->parent;
+	}
+	return (NULL);
+// 	binary_tree_t *ancestor;
 
-	ancestor = (binary_tree_t *)binary_trees_ancestor(
-	(binary_tree_t *)first->parent,
-	(binary_tree_t *)second->parent);
-	if (!ancestor && first->parent)
-	return (first->parent);
-	if (!ancestor && second->parent)
-	return (second->parent);
-return (ancestor);
+// 	if (!first || !second)
+// 		return (NULL);
+// 	if (first == second)
+// 		return ((binary_tree_t *)first);
+// 	if (first == second->parent)
+// 		return ((binary_tree_t *)first);
+// 	if (first->parent == second)
+// 		return ((binary_tree_t *)second);
+// 	if (first->parent == second->parent)
+// 		return (first->parent);
+
+// 	ancestor = (binary_tree_t *)binary_trees_ancestor(
+// 	(binary_tree_t *)first->parent,
+// 	(binary_tree_t *)second->parent);
+// 	if (!ancestor && first->parent)
+// 	return (first->parent);
+// 	if (!ancestor && second->parent)
+// 	return (second->parent);
+// return (ancestor);
 }
