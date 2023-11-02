@@ -1,41 +1,34 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_insert_left - a function that inserts a node
- * as the left-child of another node
- * @parent:  pointer to the node to insert the left-child in
- * @value:  the value to store in the new node
- * Return: a pointer to the created node, or NULL on failure
- * or if parent is NULL
+ * bst_insert - Insert a value into a Binary Search Tree (BST) using recursion
+ * @tree: A double pointer to the root node of the BST
+ * @value: The value to insert
+ * Return: A pointer to the created node, or NULL on failure
  */
-
-binary_tree_t *binary_tree_insert_left(binary_tree_t *parent, int value)
+bst_t *bst_insert(bst_t **tree, int value)
 {
-	binary_tree_t *new_node;
+    if (!tree)
+        return NULL;
 
-	if (parent == NULL)
-		return (NULL);
+    if (!*tree)
+    {
+        *tree = binary_tree_node(NULL, value);
+        return *tree;
+    }
 
-	new_node = malloc(sizeof(binary_tree_t));
-	if (new_node == NULL)
-		return (NULL);
+    if (value < (*tree)->n)
+    {
+        // Recursively insert into the left subtree
+        (*tree)->left = bst_insert(&((*tree)->left), value);
+        (*tree)->left->parent = *tree;
+    }
+    else if (value > (*tree)->n)
+    {
+        // Recursively insert into the right subtree
+        (*tree)->right = bst_insert(&((*tree)->right), value);
+        (*tree)->right->parent = *tree;
+    }
 
-	new_node->n = value;
-	new_node->parent = parent;
-	new_node->right = NULL;
-
-	if (parent->left == NULL)
-	{
-		parent->left = new_node;
-		new_node->left = NULL;
-	}
-	else
-	{
-		new_node->left = parent->left;
-		parent->left = new_node;
-		new_node->left->parent = new_node;
-	}
-
-	return (new_node);
+    return *tree;
 }
-
