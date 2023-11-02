@@ -1,18 +1,6 @@
 #include "binary_trees.h"
-/**
- *find_min - find minimum value in the tree
- *@root: pointer
- *Return: pointer
- */
-bst_t *find_min(bst_t *root)
-{
-	if (!root)
-		return (NULL);
-	else if (root->left == NULL)
-		return (root);
-	else
-		return (find_min(root->left));
-}
+bst_t *find_min(bst_t *root);
+
 /**
  *bst_remove -  remove the pointer
  *@root: is a pointer to the root node of the tree where you will remove a node
@@ -49,4 +37,18 @@ bst_t *bst_remove(bst_t *root, int value)
 		root->right = bst_remove(root->right, tmp->n);
 	}
 	return (root);
+}
+/**
+ *find_min - find minimum value in the tree
+ *@root: pointer
+ *Return: pointer
+ */
+bst_t *find_min(bst_t *root)
+{
+	if (!root)
+		return (NULL);
+	else if (root->left == NULL)
+		return (root);
+	else
+		return (find_min(root->left));
 }
