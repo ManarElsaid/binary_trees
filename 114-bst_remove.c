@@ -12,6 +12,7 @@ bst_t *find_min(bst_t *root)
 		return (root);
 	else
 		return (find_min(root->left));
+}
 /**
  *bst_remove -  remove the pointer
  *@root: is a pointer to the root node of the tree where you will remove a node
