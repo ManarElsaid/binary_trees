@@ -15,5 +15,6 @@
         "vector": "c",
         "chrono": "c",
         "cstddef": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }
