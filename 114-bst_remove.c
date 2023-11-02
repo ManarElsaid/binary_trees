@@ -48,6 +48,7 @@ bst_t *find_max(bst_t *root)
 bst_t *bst_remove(bst_t *root, int value)
 {
     bst_t *suc = NULL;
+    bst_t *tmp = NULL;
 
     if(!root)
         return (NULL);
@@ -64,13 +65,15 @@ bst_t *bst_remove(bst_t *root, int value)
         }
         else if (root->left && !root->right)
         {
-        root = root->left;
-        free(root->left);
+        tmp = root->left;
+        free(root);
+        return (tmp);
         }
         else if (!root->left && root->right)
         {
-        root = root->right;
-        free(root->right);
+        tmp = root->right;
+        free(root);
+        return (tmp);
         }
         else
         {
