@@ -1,35 +1,29 @@
 #include "binary_trees.h"
+
 /**
- *bst_min_node - find minimum value in the tree
- *@root: pointer
- *Return: pointer
+ * find_min - Find the node with the minimum value in the tree
+ * @root: Pointer to the root node of the tree
+ * Return: Pointer to the node with the minimum value
  */
-bst_t *bst_min_node(bst_t *root)
+bst_t *find_min(bst_t *root)
 {
-	bst_t *tmp;
-
-	/* Assign the address of the root node to the tmp pointer. */
-	tmp = root;
-
-	/* Loop until the left node of the tmp pointer is NULL. */
-	while (tmp->left != NULL)
-		tmp = tmp->left;
-	/* Return the address of the tmp pointer. */
-	return (tmp);
+	if (!root)
+		return NULL;
+	while (root->left)
+		root = root->left;
+	return root;
 }
 
 /**
- * bst_remove - Removes a node from a Binary Search Tree
+ * bst_remove - Remove a node with a specific value from the BST
  * @root: Pointer to the root node of the tree
  * @value: The value to remove
  * Return: Pointer to the new root node of the tree after removing the value
  */
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *tmp;
-
-		if (!root)
-		return (NULL);
+	if (!root)
+		return NULL;
 
 	if (value < root->n)
 		root->left = bst_remove(root->left, value);
@@ -37,22 +31,29 @@ bst_t *bst_remove(bst_t *root, int value)
 		root->right = bst_remove(root->right, value);
 	else
 	{
-		if (!root->left)
+		if (!root->left && !root->right)
 		{
-			tmp = root->right;
 			free(root);
-			return (tmp);
+			return NULL;
 		}
-		else if (!root->right)
+		else if (root->left && !root->right)
 		{
-			tmp = root->left;
+			bst_t *temp = root->left;
 			free(root);
-			return (tmp);
+			return temp;
 		}
-
-		tmp = bst_min_node(root->right);
-		root->n = tmp->n;
-		root->right = bst_remove(root->right, tmp->n);
+		else if (!root->left && root->right)
+		{
+			bst_t *temp = root->right;
+			free(root);
+			return temp;
+		}
+		else
+		{
+			bst_t *successor = find_min(root->right);
+			root->n = successor->n;
+			root->right = bst_remove(root->right, successor->n);
+		}
 	}
-	return (root);
+	return root;
 }
