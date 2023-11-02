@@ -1,6 +1,4 @@
 #include "binary_trees.h"
-bst_t *find_min(bst_t *root);
-bst_t *find_max(bst_t *root);
 /**
  *find_min - find minimum value in the tree
  *@root: pointer
@@ -8,29 +6,12 @@ bst_t *find_max(bst_t *root);
  */
 bst_t *find_min(bst_t *root)
 {
-	bst_t *min = root;
-
-	while (min->left)
-		min = min->left;
-
-	return (min);
-}
-
-/**
- *find_max - find maximum value in the tree
- *@root: pointer
- *Return: pointer
- */
-bst_t *find_max(bst_t *root)
-{
 	if (!root)
 		return (NULL);
-	else if (root->right == NULL)
+	else if (root->left == NULL)
 		return (root);
 	else
-		return (find_min(root->right));
-}
-
+		return (find_min(root->left));
 /**
  *bst_remove -  remove the pointer
  *@root: is a pointer to the root node of the tree where you will remove a node
