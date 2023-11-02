@@ -10,12 +10,10 @@ bst_t *find_min(bst_t *root)
 {
 	bst_t *min = root;
 
-	if (!root)
-		return (NULL);
-	else if (min->left == NULL)
-		return (min);
-	else
-		return (find_min(min->left));
+	while (min->left)
+		min = min->left;
+
+	return (min);
 }
 
 /**
