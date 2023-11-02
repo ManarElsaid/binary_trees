@@ -59,6 +59,7 @@ bst_t *bst_remove(bst_t *root, int value)
     else{
         if(!root->left && !root->right)
         {
+            free(root);
             root = NULL;
         }
         else if (root->left && !root->right)
