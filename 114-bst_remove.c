@@ -45,10 +45,10 @@ bst_t *bst_remove(bst_t *root, int value)
  */
 bst_t *find_min(bst_t *root)
 {
-	if (!root)
-		return (NULL);
-	else if (root->left == NULL)
-		return (root);
-	else
-		return (find_min(root->left));
+	bst_t *min = root;
+
+	while (min->left)
+		min = min->left;
+
+	return (min);
 }
