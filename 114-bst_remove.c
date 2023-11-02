@@ -8,12 +8,14 @@ bst_t *find_max(bst_t *root);
  */
 bst_t *find_min(bst_t *root)
 {
+	bst_t *min = root;
+
 	if (!root)
 		return (NULL);
-	else if (root->left == NULL)
-		return (root);
+	else if (min->left == NULL)
+		return (min);
 	else
-		return (find_min(root->left));
+		return (find_min(min->left));
 }
 
 /**
