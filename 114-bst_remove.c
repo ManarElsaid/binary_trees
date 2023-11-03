@@ -37,7 +37,6 @@ bst_t *bst_remove(bst_t *root, int value)
 		root->right = bst_remove(root->right, value);
 	else
 	{
-	
 		if (!root->left)
 		{
 			right = root->right;
