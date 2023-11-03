@@ -8,10 +8,12 @@ bst_t *find_min(bst_t *root)
 {
 	if (!root)
 		return (NULL);
-	while (root->left)
-		root = root->left;
-	return (root);
+	else if (root->left == NULL)
+		return (root);
+	else
+		return (find_min(root->left));
 }
+
 
 /**
  *bst_remove -  remove the pointer
