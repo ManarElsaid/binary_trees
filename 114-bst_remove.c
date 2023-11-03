@@ -36,14 +36,12 @@ bst_t *bst_remove(bst_t *root, int value)
 		{
 			tmp = root->right;
 				free(root->right);
-				free(root);
 			return (tmp);
 		}
 		else if (!root->right)
 		{
 			tmp = root->left;
 			free(root->left);
-			free(root);
 			return (tmp);
 		}
 		tmp = find_min(root->right);
