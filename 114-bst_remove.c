@@ -21,10 +21,9 @@ bst_t *find_min(bst_t *root)
  */
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *tmp, *right, *left;
+	bst_t *tmp, *right;
 
 	right = NULL;
-	left = NULL;
 	tmp = NULL;
 
 	if (!root)
@@ -49,9 +48,9 @@ bst_t *bst_remove(bst_t *root, int value)
 		}
 		else if (!root->right && root->left)
 		{
-			left = root->left;
+			right = root->left;
 			free(root);
-			return (left);
+			return (right);
 		}
 		tmp = find_min(root->right);
 		root->n = tmp->n;
