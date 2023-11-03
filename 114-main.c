@@ -23,7 +23,7 @@ int main(void)
 	root = array_to_bst(array, size);
 	binary_tree_print(root);
 
-	root = bst_remove(root, 2);
+	root = bst_remove(root, 43);
 	binary_tree_print(root);
 
 	binary_tree_delete(root);
