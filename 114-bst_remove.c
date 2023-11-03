@@ -40,15 +40,23 @@ bst_t *bst_remove(bst_t *root, int value)
 	
 		if (!root->left)
 		{
+			if(!root->parent)
+			{
 			right = root->right;
 				free(root);
 			return (right);
+			}
+				return (root);
 		}
 		else if (!root->right)
 		{
+			if(!root->parent)
+			{
 			right = root->left;
 			free(root);
 			return (right);
+			}
+				return (root);
 		}
 		tmp = find_min(root->right);
 		root->n = tmp->n;
